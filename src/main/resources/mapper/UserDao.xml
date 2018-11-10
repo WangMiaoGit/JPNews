@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.max.dao.IUserDao">
+
+    <!--将数据库字段与Dao对应  将查到数据传到对象-->
+    <!--<resultMap id="UserResult" type="com.wang.model.User">
+        &lt;!&ndash;主键标签&ndash;&gt;
+        <id column="id" javaType="INTEGER" property="id"/>
+        &lt;!&ndash;普通标签&ndash;&gt;
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+    </resultMap>-->
+    <!--<select id="selectUser" resultMap="UserResult" resultType="User" parameterType="long">
+        SELECT * FROM user WHERE id = #{id}
+    </select>-->
+    <!--parameterType="long" 传递的参数 sql拼接的条件类型 只能为一个可以是对象
+        resultMap="UserResult" 对应的resultMap 用来将查询的字段绑定到对象-->
+    <!--字段不对应  可以在  sql语句中加上别名-->
+    <!--字段不对应  可以在  mybatis-config配置驼峰转下划线命名-->
+    <select id="selectUserFromId" resultType="com.max.model.User" parameterType="long">
+        SELECT id,
+        user_name as userName,
+        user_num as userNum,
+        user_pwd as userPwd,
+        type FROM user WHERE id = #{id}
+        <!--   <if test=" username !=null &amp;&amp;!&quot;&quot;.equals(username.trim()) ">and username=#{username}</if>-->
+    </select>
+
+    <select id="selectUser" resultType="com.max.model.User" parameterType="Map">
+        SELECT id,
+        user_name as userName,
+        user_num as userNum,
+        user_pwd as userPwd,
+        type FROM user
+        WHERE user_num = #{userNum}
+        AND user_pwd = #{userPwd}
+
+    </select>
+
+</mapper>
